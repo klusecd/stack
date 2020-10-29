@@ -14,7 +14,7 @@ class TStack
 {
 protected:
 	ValType *sStack;
-	int Size;                
+	int size;                
 	int maxSize;               
 public:
 
@@ -22,18 +22,18 @@ public:
 	{
 		if ((s < 0) || (s > MAX_STACK_SIZE)) throw "Error";
 		maxSize = s;
-		Size = 0;
+		size = 0;
 		sStack = new ValType[maxSize];
-	};         
+	}
 
 	TStack(const TStack &s)
 	{
-		Size = s.Size;
+		size = s.size;
 		maxSize = s.maxSize;
 		sStack = new ValType[maxSize];
 		for (int i = 0; i < Size; i++)
 			sStack[i] = s.sStack[i];
-	};  
+	}
 
 	~TStack()
 	{
@@ -42,13 +42,9 @@ public:
 	
 TStack&  operator=(const TStack &s)
 {
-	if ((Size != s.Size) || (maxSize != s.maxSize))
-	{
-		maxSize = s.maxSize;
-		Size = s.Size;
-		delete[] sStack;
-		sStack = new ValType[maxSize];
-	}
+	maxSize = s.maxSize;
+	size = s.size;
+	sStack = new ValType[maxSize];
 	for (int i = 0; i <= maxSize; i++)
 		sStack[i] = s.sStack[i];
 	return *this;
@@ -56,17 +52,17 @@ TStack&  operator=(const TStack &s)
 
 bool operator==(const TStack &s) const
 {
-	bool l = 1;
-	if ((Size != s.Size) || (maxSize != s.maxSize)) return 0;
+	bool isEqual = 1;
+	if ((size != s.size) || (maxSize != s.maxSize)) return 0;
 	for (int i = 0; i <= maxSize; i++)
 	{
 		if (sStack[i] != s.sStack[i])
 		{
-			l = 0;
+			isEqual = 0;
 			break;
 		}
 	}
-	return l;
+	return isEqual;
 }
 
 bool TStack<ValType>::operator!=(const TStack &s) const
@@ -77,30 +73,37 @@ bool TStack<ValType>::operator!=(const TStack &s) const
 
 bool empty()
 {
-	if (Size == 0) return 1;
+	if (size == 0) return 1;
 	return 0;
 }
 
 bool full()
 {
-	if (maxSize == Size) return 1;
+	if (maxSize == size) return 1;
 	return 0;
 }
 
-
 void push(ValType elem)
 {
-	if (full()) throw "Stack full";
-	Size++;;
-	sStack[Size] = elem;
+	if (size == maxSize)
+	{
+		if (full()) throw "Stack full";
+		maxSize *= 2.0;
+		ValType *a = new int[maxSize];
+		memmove(a, sStack, sizeof(*sStack) * size);
+		delete[] sStack;
+		sStack = a;
+	}
+
+	sStack[size] = elem;
+	size++;;
 }
 
 void pop()
 {
 	if (empty()) throw "Stack empty";
-	sStack[Size]= '\0';
-	Size--;
-	
+	sStack[size]= '\0';
+	size--;
 }
 
 };
