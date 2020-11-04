@@ -57,6 +57,16 @@ TEST(TStack, can_get_top) {
 	ASSERT_NO_THROW(s.top());
 }
 
+TEST(TStack, can_clear_stack)
+{
+	TStack<int> s;
+	s.push(1);
+	s.clear();
+	EXPECT_EQ(1, s.empty());
+}
+
+//---------------------------------------------------
+
 TEST(TQueue, can_create_queue_with_positive_length)
 {
 	ASSERT_NO_THROW(TQueue<int> q(5));
@@ -158,4 +168,21 @@ TEST(TQueue, return_false_when_queue_isnt_full) {
 TEST(TQueue, return_true_when_queue_is_empty) {
 	TQueue<int> q;
 	EXPECT_EQ(true, q.empty());
+}
+
+TEST(TQueue, throw_when_push_into_full_queue)
+{
+	TQueue<int> q(3);
+	q.push(1);
+	q.push(2);
+	q.push(3);
+	ASSERT_ANY_THROW(q.push(4));
+}
+
+TEST(TQueue, can_clear_queue)
+{
+	TQueue<int> q;
+	q.push(1);
+	q.clear();
+	EXPECT_EQ(1, q.empty());
 }

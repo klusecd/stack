@@ -24,13 +24,13 @@ public:
 		sStack = new ValType[maxSize];
 	}
 
-	TStack(const TStack &s)
+	TStack(const TStack &_s)
 	{
-		size = s.size;
-		maxSize = s.maxSize;
+		size = _s.size;
+		maxSize = _s.maxSize;
 		sStack = new ValType[maxSize];
 		for (int i = 0; i < Size; i++)
-			sStack[i] = s.sStack[i];
+			sStack[i] = _s.sStack[i];
 	}
 
 	~TStack()
@@ -78,16 +78,15 @@ bool full()
 
 void push(ValType elem)
 {
-	if (full())
+	if (full()) throw "Stack full";
+	if (size>=maxSize)
 	{
-		if (full()) throw "Stack full";
 		maxSize *= 2.0;
 		ValType *a = new int[maxSize];
 		memmove(a, sStack, sizeof(*sStack) * size);
 		delete[] sStack;
 		sStack = a;
 	}
-
 	sStack[size] = elem;
 	size++;
 }
@@ -107,6 +106,11 @@ ValType operator[](int pos)
 {
 	if ((pos < 0) || (pos > maxSize)) throw "error";
 	return sStack[pos];
+}
+
+void clear()
+{
+	size = 0;
 }
 
 };
@@ -150,6 +154,7 @@ public:
 	void push(ValType elem) 
 	{
 		top.push(elem);
+		tail.clear();
 	}
 
 	bool operator==(const TQueue &q)
@@ -171,7 +176,6 @@ public:
 	
 		if (tail.empty()) return top[pos + indexLowEl];
 		return tail[pos];
-
 	}
 
 };
