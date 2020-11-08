@@ -133,27 +133,6 @@ TEST(TQueue, throws_when_pop_from_empty_stack)
 }
 
 
-TEST(TQueue, works_correctly)
-{
-	TQueue<int> q(5);
-	q.push(1);
-	q.push(2);
-	q.push(3);
-	q.push(4);
-	q.push(5);
-	q.pop();
-	q.push(6);
-	EXPECT_EQ(6, q[4]);
-}
-
-
-TEST(TQueue, can_return_element)
-{
-	TQueue<int> q(5);
-	q.push(1);
-	ASSERT_NO_THROW(q[0]);
-}
-
 TEST(TQueue, return_true_when_queue_is_full) {
 	TQueue<int> q;
 	EXPECT_EQ(false, q.full());

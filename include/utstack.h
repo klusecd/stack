@@ -121,34 +121,30 @@ class TQueue : public TStack<ValType>
 {
 private:
 	TStack<ValType> top, tail;
-	int indexLowEl;
-public:
 
+public:
 	TQueue(int s = 10) 
 	{
 		TStack <ValType> tmp(s);
 		top = tmp;
 		tail = tmp;
-		indexLowEl = 0;
-
 	}
 
 	~TQueue() {}
 
 	void pop() 
 	{
-		while (!top.empty())
-		{
-			tail.push(top.top());
-			top.pop();
+		if (top.empty() && tail.empty()) throw "Queue is empty";
+
+		if (tail.empty()) {
+			while (!top.empty())
+			{
+				tail.push(top.top());
+				top.pop();
+			}
 		}
 		tail.pop();
-
-		while (!tail.empty())
-		{
-			top.push(tail.top());
-			tail.pop();
-		}
+		size--;
 	}
 	                    
 	void push(ValType elem) 
@@ -171,11 +167,4 @@ public:
 		if (q == *this) return false;
 		return true;
 	}
-
-	ValType operator[](int pos) {
-	
-		if (tail.empty()) return top[pos + indexLowEl];
-		return tail[pos];
-	}
-
 };
