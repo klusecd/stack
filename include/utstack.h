@@ -82,7 +82,7 @@ void push(ValType elem)
 	if (size>=maxSize)
 	{
 		maxSize *= 2.0;
-		ValType *a = new int[maxSize];
+		ValType *a = new ValType[maxSize];
 		memmove(a, sStack, sizeof(*sStack) * size);
 		delete[] sStack;
 		sStack = a;
